@@ -67,7 +67,7 @@ ExecTime color2gray(std::string device_type)
 
     // Run kernel
     auto cpuStart = std::chrono::high_resolution_clock::now();
-    size_t global_work_size[2] = {image.cols, image.rows};  // Define global size of execution
+    size_t global_work_size[2] = {static_cast<size_t>(image.cols), static_cast<size_t>(image.rows)};  // Define global size of execution
     cl_event event;
     err = clEnqueueNDRangeKernel(command_queue, kernel, 2, NULL, global_work_size, NULL, 0, NULL, &event);
     assert(err == CL_SUCCESS);
@@ -79,7 +79,7 @@ ExecTime color2gray(std::string device_type)
 
     // Read result image
     size_t origin[3] = {0, 0, 0};
-    size_t region[3] = {image.cols, image.rows, 1};
+    size_t region[3] = {static_cast<size_t>(image.cols), static_cast<size_t>(image.rows), 1};
     size_t rowPitch = 0;
     size_t slicePitch = 0;
     uchar* p = new uchar[image.cols * image.rows * 4];
